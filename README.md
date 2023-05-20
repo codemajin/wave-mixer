@@ -1,1 +1,32 @@
-# wave-mixer
+# WaveMixer for PyTorch
+
+Mixer-architecture network applying **MLP-Mixer** to one-dimensional tensor.
+
+MLPMixer's paper: [MLP-Mixer: An all-MLP Architecture for Vision](https://arxiv.org/abs/2105.01601)
+
+## Install
+
+```
+$ git clone https://github.com/codemajin/wave-mixer
+$ cd wave-mixer
+$ pip install .
+```
+
+## Usage
+
+```python
+import torch
+from wave_mixer import WaveMixer
+
+model = WaveMixer(
+    in_features=24000,
+    out_features=100,
+    channels=1,
+    patch_size=160,
+    mixer_dim=256,
+    num_mixers=6
+)
+
+input = torch.randn(32, 1, 24000)
+output = model(input)   # torch.Size([32, 100])
+```
