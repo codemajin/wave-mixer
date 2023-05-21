@@ -14,12 +14,14 @@ $ pip install .
 
 ## Usage
 
+For classification, set `out_features` to the number of classes as follows:
+
 ```python
 import torch
 from wave_mixer import WaveMixer
 
 model = WaveMixer(
-    in_features=24000,
+    in_features=16000,
     out_features=100,
     channels=1,
     patch_size=160,
@@ -27,6 +29,35 @@ model = WaveMixer(
     num_mixers=6
 )
 
-input = torch.randn(32, 1, 24000)
+input = torch.randn(32, 1, 16000)
 output = model(input)   # torch.Size([32, 100])
+```
+
+On the other hand, for regression, set `out_features` to **1**.
+
+```python
+import torch
+from wave_mixer import WaveMixer
+
+model = WaveMixer(
+    in_features=16000,
+    out_features=1,
+    channels=1,
+    patch_size=160,
+    mixer_dim=256,
+    num_mixers=6
+)
+
+input = torch.randn(32, 1, 16000)
+output = model(input)   # torch.Size([32, 1])
+```
+
+`dropout` and `activation` are configurable, too.
+
+```python
+model = WaveMixer(
+    ...
+    dropout=0.2,       # Default to 0.0.
+    activation="relu"  # Default to 'gelu', must be 'gelu', 'relu', or 'tanh'.
+)
 ```
